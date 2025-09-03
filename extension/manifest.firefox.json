@@ -1,0 +1,28 @@
+{
+  "manifest_version": 3,
+  "name": "App URL Crawler",
+  "version": "0.2.0",
+  "description": "Собирает URL внутри текущего веб‑приложения: DOM, навигация, SPA.",
+  "permissions": [
+    "tabs",
+    "scripting",
+    "webNavigation",
+    "storage",
+    "clipboardWrite",
+    "unlimitedStorage"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "background": {
+    "service_worker": "background/background.js"
+  },
+  "action": {
+    "default_popup": "ui/popup.html",
+    "default_title": "App URL Crawler"
+  },
+  "sidebar_action": {
+    "default_panel": "ui/sidepanel.html",
+    "default_title": "App URL Crawler"
+  }
+}

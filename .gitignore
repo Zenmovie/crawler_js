@@ -1,0 +1,12 @@
+# Build artifacts
+dist/
+web-ext-artifacts/
+
+# OS/editor junk
+.DS_Store
+Thumbs.db
+*.log
+
+# Node/npm if used later
+node_modules/
+

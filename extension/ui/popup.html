@@ -1,0 +1,47 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>App URL Crawler</title>
+  <link rel="stylesheet" href="popup.css" />
+  <style>html,body{width:360px;max-height:600px}</style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="app-select">
+      <label>App:</label>
+      <select id="appSelect"></select>
+      <button id="refreshApps" title="Refresh apps">⟳</button>
+    </div>
+    <div class="controls">
+      <button id="startBtn">Start</button>
+      <button id="pauseBtn">Pause</button>
+      <button id="rescanBtn">Rescan</button>
+      <button id="resetBtn" title="Clear URLs for app">Reset</button>
+      <button id="sideBtn" title="Open Side Panel">Side</button>
+    </div>
+  </header>
+
+  <section class="filters">
+    <input id="search" type="search" placeholder="Search..." />
+    <label><input type="checkbox" class="kind" value="page" checked> page</label>
+    <label><input type="checkbox" class="kind" value="api" checked> api</label>
+    <label><input type="checkbox" class="kind" value="asset"> asset</label>
+    <label title="Capture fetch/XHR URLs"><input type="checkbox" id="deepMode"> deep</label>
+  </section>
+
+  <section class="summary">
+    <span id="counts">0</span>
+    <div class="export">
+      <button id="copyBtn">Copy</button>
+      <button id="exportJson">JSON</button>
+      <button id="exportCsv">CSV</button>
+    </div>
+  </section>
+
+  <section class="list" id="list"></section>
+
+  <script src="popup.js" type="module"></script>
+</body>
+</html>
