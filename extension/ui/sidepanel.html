@@ -1,0 +1,106 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>App URL Crawler – Side Panel</title>
+  <link rel="stylesheet" href="popup.css" />
+  <style>
+    html, body { width: 100%; height: 100%; }
+    body { padding: 8px; }
+    .list { max-height: calc(100vh - 160px); }
+  </style>
+  </head>
+<body>
+  <header class="topbar">
+    <div class="app-select">
+      <label>App:</label>
+      <select id="appSelect"></select>
+      <button id="refreshApps" title="Refresh apps">⟳</button>
+    </div>
+    <div class="controls">
+      <button id="startBtn">Start</button>
+      <button id="pauseBtn">Pause</button>
+      <button id="rescanBtn">Rescan</button>
+      <button id="resetBtn" title="Clear URLs for app">Reset</button>
+    </div>
+  </header>
+
+  <section class="filters">
+    <input id="search" type="search" placeholder="Search..." />
+    <label><input type="checkbox" class="kind" value="page" checked> page</label>
+    <label><input type="checkbox" class="kind" value="api" checked> api</label>
+    <label><input type="checkbox" class="kind" value="asset"> asset</label>
+    <label title="Capture fetch/XHR URLs"><input type="checkbox" id="deepMode"> deep</label>
+  </section>
+
+  <section class="summary">
+    <span id="counts">0</span>
+    <div class="export">
+      <button id="copyBtn">Copy</button>
+      <button id="exportJson">JSON</button>
+      <button id="exportCsv">CSV</button>
+    </div>
+  </section>
+
+  <section class="settings">
+    <h4>Settings</h4>
+    <div class="settings-grid">
+      <label title="Drop #fragment during canonicalization"><input type="checkbox" id="setIgnoreHash"> Ignore hash</label>
+      <label title="Show and collect static assets (images, css, fonts)"><input type="checkbox" id="setIncludeAssets"> Include assets</label>
+      <label title="Stop after reaching this number (0 = unlimited)">Max URLs <input type="number" id="setMaxUrls" min="0" step="1" style="width:100px"></label>
+      <label title="How to normalize query string for dedupe">Query params
+        <select id="setNormalizeQuery">
+          <option value="sort">Sort</option>
+          <option value="none">As-is</option>
+        </select>
+      </label>
+      <button id="applyRescan" title="Re-extract DOM links on this page">Re-scan</button>
+    </div>
+  </section>
+
+  <section class="settings">
+    <h4>Crawler (BFS)</h4>
+    <div class="settings-grid">
+      <label>Depth <input type="number" id="bfsDepth" min="0" step="1" value="2" style="width:80px"></label>
+      <label>Rate (ms) <input type="number" id="bfsRate" min="0" step="50" value="500" style="width:100px"></label>
+      <button id="bfsStart">Start</button>
+      <button id="bfsPause">Pause</button>
+      <button id="bfsStop">Stop</button>
+      <span id="bfsStatus" class="chip" title="BFS status">idle</span>
+    </div>
+  </section>
+
+  <section class="bfs-progress" id="bfsProgressWrap" style="display:none">
+    <div class="progress"><div class="progress-bar" id="bfsProgressBar" style="width:0%"></div></div>
+    <div class="bfs-counters"><span id="bfsVisited">0</span> visited · <span id="bfsQueued">0</span> queued</div>
+    <div class="controls">
+      <button id="bfsSkip" title="Skip current page">Skip</button>
+      <button id="bfsClear" title="Clear queue">Clear queue</button>
+      <span id="bfsReason" class="chip" title="Reason"></span>
+    </div>
+  </section>
+
+  <section class="settings" id="bfsNextWrap" style="display:none">
+    <h4>Next in queue</h4>
+    <div class="settings-grid">
+      <label>Show <input type="number" id="bfsNextCount" min="1" max="100" step="1" value="10" style="width:70px"></label>
+      <button id="bfsNextRefresh">Refresh</button>
+      <label>Skip <input type="number" id="bfsSkipCount" min="1" max="100" step="1" value="5" style="width:70px"></label>
+      <button id="bfsSkipN">Skip N</button>
+      <button id="bfsOpenNext" title="Open next in new tab">Open next</button>
+      <button id="bfsCopyNext" title="Copy listed next URLs">Copy next</button>
+    </div>
+    <div class="settings-grid">
+      <label style="flex:1">Enqueue seed <input id="bfsEnqueueInput" type="text" placeholder="https://example.com/path or /relative" style="width:100%"></label>
+      <button id="bfsEnqueueBtn">Enqueue</button>
+      <span id="bfsEnqueueMsg" class="msg"></span>
+    </div>
+    <div class="list" id="bfsNextList" style="max-height:220px"></div>
+  </section>
+
+  <section class="list" id="list"></section>
+
+  <script src="sidepanel.js" type="module"></script>
+</body>
+</html>
