@@ -93,6 +93,6 @@ scripts/
 - Storage/IndexedDB: https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API
 
 ---
-Credits: @lamerzen via privesc.r
+Credits: t.me/lamerzen via privesc.ru
 
 inspired by https://github.com/sinaayeganeh/Find-Hidden-Endpoint
